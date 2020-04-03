@@ -8,10 +8,8 @@ import { postEvents } from '../actions';
 class EventsNew extends Component {
   constructor(props){
     super(props)
-    console.log(this)
+    
     this.onSubmit = this.onSubmit.bind(this)
-    console.log(this)
-
   }
   renderField(field){
       const { input , label, type, meta: {touched, error}} = field
@@ -27,7 +25,7 @@ class EventsNew extends Component {
     this.props.history.push('/')
   }
   render(){
-    const { handleSubmit } = this.props
+    const { handleSubmit, pristine , submitting} = this.props
 
     return (
     <form onSubmit={handleSubmit(this.onSubmit)}>
@@ -38,7 +36,7 @@ class EventsNew extends Component {
         <Field label="Body" name="body" type="text" component={this.renderField} />
       </div>
       <div>
-      <input type="submit" value="submit" disabled={false} />
+      <input type="submit" value="submit" disabled={pristine || submitting} />
       <Link to="/">Cancel</Link>
       </div>
     </form>
