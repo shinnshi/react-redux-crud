@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Field, reduxForm } from 'redux-form'
 import { Link } from 'react-router-dom';
-
+import RaisedButton from 'material-ui/RaisedButton';
+import TextField from 'material-ui/TextField';
 import { getEvent, deleteEvent, putEvent } from '../actions';
 
 class EventsShow extends Component {
@@ -19,10 +20,15 @@ class EventsShow extends Component {
   renderField(field) {
     const { input, label, type, meta: { touched, error } } = field
     return (
-      <div>
-        <input {...input} placeholder={label} type={type} />
-        {touched && error && <span>{error}</span>}
-      </div>
+      <TextField
+        hintText={label}
+        floatingLabelText={label}
+        type={type}
+        errorText={touched && error}
+        {...input}
+        fullWidth={true}
+
+      />
     )
   }
   async onDeleteClick() {
@@ -37,7 +43,9 @@ class EventsShow extends Component {
   }
   render() {
     const { handleSubmit, pristine, submitting, invalid } = this.props
-
+    const style = {
+      margin: 30
+    }
     return (
       <form onSubmit={handleSubmit(this.onSubmit)}>
         <div>
@@ -46,11 +54,23 @@ class EventsShow extends Component {
         <div>
           <Field label="Body" name="body" type="text" component={this.renderField} />
         </div>
-        <div>
-          <input type="submit" value="submit" disabled={pristine || submitting || invalid} />
-          <Link to="/">Cancel</Link>
-          <Link to="/" onClick={this.onDeleteClick}>Delete</Link>
-        </div>
+        <RaisedButton
+          label="Submit"
+          type="submit"
+          value="submit"
+          disabled={pristine || submitting || invalid}
+          style={style}
+        />
+        <RaisedButton
+          label="Cancel"
+          containerElement={<Link to="/" />}
+          style={style}
+        />
+        <RaisedButton
+          label="Delete"
+          onClick={this.onDeleteClick}
+          style={style}
+        />
       </form>
     )
 
